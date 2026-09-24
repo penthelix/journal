@@ -1,0 +1,20 @@
+[project]
+name = "journal"
+version = "0.1.0"
+description = "A CLI to journal your hardware project"
+readme = "README.md"
+requires-python = ">=3.14"
+dependencies = [
+    "typer>=0.27.2",
+]
+
+[project.scripts]
+journal = "journal.cli:main"
+
+[tool.uv]
+package = true
+
+[dependency-groups]
+dev = [
+    "pytest>=9.1.1",
+]
