@@ -3,6 +3,8 @@ from typing import Annotated
 
 import typer
 
+from journal.helper import sanitize_text
+
 app = typer.Typer(help="A CLI to journal your hardware projects")
 
 
@@ -16,7 +18,10 @@ def project(
     typer.echo(f"path: {path}")
     typer.echo(f"content: {content}")
 
+    proj_name = sanitize_text(proj_name)
     path = path.expanduser().resolve()
+    content = sanitize_text(content) + "\n"
+
     if not path.exists():
         path.mkdir(parents=True, exist_ok=True)
 
