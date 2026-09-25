@@ -36,6 +36,13 @@ def project(
         _ = f.write(content)
 
 
+@app.command()
+def config() -> None:
+    typer.echo(f"Fetched config from {CONFIG_PATH}")
+    with open(CONFIG_PATH, "r") as f:
+        typer.echo(f.read())
+
+
 def main() -> None:
     """Main entry point"""
     app()
