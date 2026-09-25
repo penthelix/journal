@@ -10,6 +10,10 @@ def add_project(proj_name: str, proj_path: Path):
     save_config()
 
 
+def list_projects() -> set[str]:
+    return set(config.sections())
+
+
 def save_config():
     if not CONFIG_PATH.parent.exists():
         CONFIG_PATH.parent.mkdir(parents=True)

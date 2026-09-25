@@ -3,6 +3,7 @@ from typing import Annotated
 
 import typer
 
+from journal.config import CONFIG_PATH, add_project, list_projects
 from journal.helper import sanitize_text
 
 app = typer.Typer(help="A CLI to journal your hardware projects")
@@ -21,6 +22,12 @@ def project(
     proj_name = sanitize_text(proj_name)
     path = path.expanduser().resolve()
     content = sanitize_text(content, strict=False) + "\n"
+
+    if not proj_name in list_projects():
+        typer.echo(f"Creating new project {proj_name}")
+        add_project(proj_name, path)
+    else:
+        typer.echo(f"Updating project {proj_name}")
 
     if not path.exists():
         path.mkdir(parents=True, exist_ok=True)
