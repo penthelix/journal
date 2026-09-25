@@ -16,6 +16,7 @@ def project(
     typer.echo(f"path: {path}")
     typer.echo(f"content: {content}")
 
+    path = path.expanduser().resolve()
     if not path.exists():
         path.mkdir(parents=True, exist_ok=True)
 
