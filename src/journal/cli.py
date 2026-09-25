@@ -20,7 +20,7 @@ def project(
 
     proj_name = sanitize_text(proj_name)
     path = path.expanduser().resolve()
-    content = sanitize_text(content) + "\n"
+    content = sanitize_text(content, strict=False) + "\n"
 
     if not path.exists():
         path.mkdir(parents=True, exist_ok=True)
