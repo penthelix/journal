@@ -18,5 +18,5 @@ def save_config():
     if not CONFIG_PATH.parent.exists():
         CONFIG_PATH.parent.mkdir(parents=True)
 
-    with open(CONFIG_PATH, "w") as configfile:
-        config.write(configfile)
+    with open(CONFIG_PATH, "w") as config_file:
+        config.write(config_file)
