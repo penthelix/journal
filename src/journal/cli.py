@@ -2,11 +2,13 @@ from pathlib import Path
 from typing import Annotated
 
 import typer
+from rich.console import Console
 
 from journal.config import CONFIG_PATH, add_project, list_projects
 from journal.helper import sanitize_text
 
 app = typer.Typer(help="A CLI to journal your hardware projects")
+console = Console(markup=False)
 
 
 @app.command()
@@ -38,9 +40,12 @@ def project(
 
 @app.command()
 def config() -> None:
-    typer.echo(f"Fetched config from {CONFIG_PATH}")
+    if not CONFIG_PATH.exists():
+        print(f"Config file not found at {CONFIG_PATH}")
+        return
+    print(f"Fetched config from {CONFIG_PATH}")
     with open(CONFIG_PATH, "r") as f:
-        typer.echo(f.read())
+        console.print(f.read())
 
 
 def main() -> None:
