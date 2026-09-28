@@ -5,7 +5,13 @@ import typer
 from rich import print
 from rich.console import Console
 
-from journal.config import CONFIG_PATH, add_project, get_project_path, list_projects
+from journal.config import (
+    CONFIG_PATH,
+    add_project,
+    get_project_path,
+    init_config,
+    list_projects,
+)
 from journal.helper import sanitize_text
 
 app = typer.Typer(help="A CLI to journal your hardware projects")
@@ -69,7 +75,27 @@ def project(
 
 
 @app.command()
-def config() -> None:
+def config(
+    reset: Annotated[bool, typer.Option()] = False,
+    init: Annotated[bool, typer.Option()] = False,
+) -> None:
+    if sum([reset, init]) > 1:
+        print("error: cannot use --reset and --init at the same time")
+        return
+
+    if reset:
+        CONFIG_PATH.unlink()
+        return
+
+    if init:
+        if CONFIG_PATH.exists() and not typer.confirm(
+            f"Config file already exists at {CONFIG_PATH}. Reinitialize anyway?"
+        ):
+            return
+        init_config()
+        return
+
+    # Print config file
     if not CONFIG_PATH.exists():
         print(f"Config file not found at {CONFIG_PATH}")
         return
