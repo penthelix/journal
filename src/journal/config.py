@@ -5,6 +5,12 @@ CONFIG_PATH: Path = Path.home() / ".config" / "journal" / "config.ini"
 config = configparser.ConfigParser()
 
 
+def init_config() -> None:
+    global config
+    config = configparser.ConfigParser()
+    save_config()
+
+
 def add_project(proj_name: str, proj_path: Path) -> None:
     config[f"projects.{proj_name}"] = {"path": str(proj_path)}
     save_config()
