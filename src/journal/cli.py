@@ -78,9 +78,11 @@ def project(
 def config(
     reset: Annotated[bool, typer.Option()] = False,
     init: Annotated[bool, typer.Option()] = False,
+    get_path: Annotated[bool, typer.Option()] = False,
 ) -> None:
-    if sum([reset, init]) > 1:
-        print("error: cannot use --reset and --init at the same time")
+    len_args: int = sum([reset, init, get_path])
+    if len_args > 1:
+        print(f"error: expected 0 or 1 options, received {len_args}")
         return
 
     if reset:
@@ -99,7 +101,6 @@ def config(
     if not CONFIG_PATH.exists():
         print(f"Config file not found at {CONFIG_PATH}")
         return
-    print(f"Fetched config from {CONFIG_PATH}")
     with open(CONFIG_PATH, "r") as f:
         console.print(f.read())
 
